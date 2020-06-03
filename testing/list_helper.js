@@ -23,14 +23,30 @@ const mostBlogs = (blogs) => {
     const HighestBlogCount = Math.max(...Object.values(blogCounter))
     const authors = Object.keys(blogCounter)
 
-    const authorWithMostLikes = authors.find(e => 
+    const authorWithMostBlogs = authors.find(e => 
         blogCounter[e] === HighestBlogCount)
 
-    return `${authorWithMostLikes}, ${HighestBlogCount}`
+    return `${authorWithMostBlogs}, ${HighestBlogCount}`
+}
+
+const mostLikes = (blogs) => {
+    const likeCounter = {}
+    blogs.forEach(({ author, likes }) => 
+        likeCounter[author] = (likeCounter[author] || 0) + likes
+    )
+    
+    const higestLikeCount = Math.max(...Object.values(likeCounter))
+    const authors = Object.keys(likeCounter)
+
+    const authorWithMostLikes = authors.find(e => 
+        likeCounter[e] === higestLikeCount)
+
+    return `${authorWithMostLikes}, ${higestLikeCount}`
 }
 
 module.exports = {
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
