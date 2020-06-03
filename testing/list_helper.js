@@ -16,7 +16,21 @@ const favoriteBlog = (blogs) => {
     return favoriteBlog[0]
 }
 
+const mostBlogs = (blogs) => {
+    const blogCounter = {}
+    blogs.map(b => blogCounter[b.author] = (blogCounter[b.author] + 1 ) || 1 )
+
+    const highestBlogNumber = Math.max(...(Object.values(blogCounter)))
+    const author = Object.keys(blogCounter)
+
+    const filterHighest = author.filter(e => 
+        blogCounter[e] === highestBlogNumber)
+
+    return (`${filterHighest[0]}, ${highestBlogNumber}`)
+}
+
 module.exports = {
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
