@@ -135,9 +135,10 @@ describe('handle delete and update', () => {
     test('update an item', async () => {
         const blogsAtStart = await helper.blogsInDB()
         const blogUpdated = blogsAtStart[0]
-                
+
         blogUpdated.title = 'updated list'
         blogUpdated.author = 'Haki'
+        blogUpdated.likes = 150
 
         await api
             .put(`/api/blogs/${blogUpdated.id}`)
