@@ -131,6 +131,23 @@ describe('handle delete and update', () => {
 
         expect(contents).not.toContain(blogToDelete.title)
     })
+
+    test('update an item', async () => {
+        const blogsAtStart = await helper.blogsInDB()
+        const blogUpdated = blogsAtStart[0]
+                
+        blogUpdated.title = 'updated list'
+        blogUpdated.author = 'Haki'
+
+        await api
+            .put(`/api/blogs/${blogUpdated.id}`)
+            .send(blogUpdated)
+            .expect(200)
+        
+        const blogsAtEnd = await helper.blogsInDB()
+        const contents = blogsAtEnd.map(p => p.title)
+        expect(contents).toContain('updated list')
+    })
 })
 
 afterAll(() => {
