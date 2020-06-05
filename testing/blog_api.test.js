@@ -80,6 +80,20 @@ test('Setting likes to 0', async () => {
     expect(contents).toContain(0)
 })
 
+test('url or title missing - bad request', async () => {
+    const newBlog = {
+        author: 'Hakizu'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+    
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(helper.intialBlogs.length)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
