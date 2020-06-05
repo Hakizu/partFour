@@ -15,6 +15,13 @@ test('blog Data is returned as json', async () => {
     expect(response.body).toHaveLength(1)
 })
 
+test('ID property is renamed id', async () => {
+    const response = await api.get('/api/blogs')
+
+    const contents = response.body.map(g => g.id)
+    expect(contents).toBeDefined()
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
