@@ -47,7 +47,8 @@ describe('Creating entries', () => {
     test('Creating succeeds with valid data', async () => {
         const newBlog = {
             title: 'Blog list',
-            author: 'Hakizu'
+            author: 'Hakizu',
+            url: 'trial.net'
         }
     
         await api  
@@ -70,8 +71,10 @@ describe('handle missing data', () => {
     test('Setting likes to 0', async () => {
         const newBlog = {
             title: 'likes Test',
-        author: 'Hakizu'
+            author: 'Hakizu',
+            url: 'trial.net'
         }
+
         await api  
         .post('/api/blogs')
         .send(newBlog)
