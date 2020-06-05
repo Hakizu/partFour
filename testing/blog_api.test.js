@@ -64,6 +64,21 @@ test('Creating succeeds with valid data', async () => {
     )
 })
 
+test('Setting likes to 0', async () => {
+    const newBlog = {
+        title: 'likes Test',
+        author: 'Hakizu'
+    }
+    await api  
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+    const blogs = await helper.blogsInDB()
+    const contents = blogs.map(r => r.likes)
+    expect(contents).toContain(0)
+})
 
 afterAll(() => {
     mongoose.connection.close()
