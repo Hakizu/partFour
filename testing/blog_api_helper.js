@@ -5,13 +5,13 @@ const intialBlogs = [
       title: 'HTML is easy',
       author: 'hakizu',
       url: 'www.hakizu.net',
-      likes: 4
+      likes: 4,
     },
     {
       title: 'Browser can execute only Javascript',
       author: 'fullstack',
       url: 'fullstackopen.com',
-      likes: 999
+      likes: 999,
     }
 ]
 

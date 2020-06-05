@@ -12,7 +12,7 @@ logger.info('connecting to', config.mongoUrl)
 
 mongoose.connect(config.mongoUrl, { 
     useNewUrlParser: true, 
-    useUnifiedTopology: true 
+    useUnifiedTopology: true
     })
     .then(() => 
     console.log(`connected to MongoDB`))

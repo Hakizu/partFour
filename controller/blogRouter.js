@@ -9,14 +9,14 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.get('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   if (blog) {
-    response.json(blog)
+    response.json(blog.toJSON())
   } else {
     response.status(404).end()
   }
 })
 
 blogRouter.post('/', async (request, response) => {
-  const body = new Blog(request.body)
+  const body = request.body
 
   const blog = new Blog({
     title: body.title,
@@ -28,6 +28,11 @@ blogRouter.post('/', async (request, response) => {
 
   const savedBlog = await blog.save()
   response.json(savedBlog.toJSON())
+})
+
+blogRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
 
 module.exports = blogRouter
