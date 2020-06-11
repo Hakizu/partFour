@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app')
 const helper = require('./blog_api_helper')
+const app = require('../app')
 const api = supertest(app)
+const bcrypt = require('bcrypt')
 
 const Blog = require('../Model/blogSchema')
+const User = require('../Model/User')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -14,6 +16,77 @@ beforeEach(async () => {
     const promiseArray = blogObjects.map(blog => 
         blog.save())
     await Promise.all(promiseArray)
+})
+
+
+describe('Handling invalid cases of user creation', () => {
+    beforeEach(async () => {
+        await User.deleteMany({})
+    
+        const passwordHash = await bcrypt.hash('topSecret', 10)
+        const user = new User({ username: 'trial', passwordHash })
+
+        await user.save()
+    })
+
+    test('Username is not unique', async () => {
+        const usersAtBeginning = await helper.usersInDb()
+
+        const newUser = {
+            username: 'trial',
+            name: 'blue',
+            password: 'halas'
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+            
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtBeginning.length)
+    })
+
+    test('password is too short', async () => {
+        const usersAtBeginning = await helper.usersInDb()
+
+        const newUser = {
+            username: 'byCombat',
+            name: 'blue',
+            password: 'b'
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+        
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtBeginning.length)
+    })
+
+    test('Username too short', async () => {
+        const usersAtBeginning = await helper.usersInDb()
+
+        const newUser = {
+            username: 'ts',
+            name: 'squeak',
+            password: 'fish'
+        }
+
+        await api  
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtBeginning.length)
+        expect(usersAtEnd).not.toContain(newUser)
+    })
+
 })
 
 
@@ -34,7 +107,6 @@ describe('getting Data - Format and Length', () => {
         )
     })
 })
-
 
 test('ID property exists', async () => {
     const response = await helper.blogsInDB()
