@@ -2,9 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Browser",
-    "author": "test",
-    "url": "post.com",
-    "likes": 1,
-    "userId": "5ee1ead52e205117f8b947dc"
+    "title": "HTML is easy",
+    "author": "hakizu",
+    "url": "www.hakizu.net",
+    "likes": 4,
 }
