@@ -1,7 +1,7 @@
-POST http://localhost:3003/api/login
+DELETE http://localhost:3003/api/blogs/5ee22c71bde3ae319cfe9fcf
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikhha2l6dSIsImlkIjoiNWVlMjI5ZDMwZTUxMzg0NGUwYmZlNjIzIiwiaWF0IjoxNTkxODgwMjM5fQ.bo9mKGQ9-ufhqPvzfdJbQguNQVmD3j5RrqKMGjhqyBk
 
 {
-    "username": "trial",
-    "password": "topSecret"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikhha2l6dSIsImlkIjoiNWVlMjI5ZDMwZTUxMzg0NGUwYmZlNjIzIiwiaWF0IjoxNTkxODgwMjM5fQ.bo9mKGQ9-ufhqPvzfdJbQguNQVmD3j5RrqKMGjhqyBk"
 }

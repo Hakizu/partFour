@@ -21,15 +21,6 @@ blogRouter.get('/:id', async (request, response) => {
   }
 })
 
-const getTokenFrom = request => {
-
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-    return authorization.substring(7) 
-  }
-  return null
-}
-
 blogRouter.post('/', async (request, response) => {
   const body = request.body
   const token = request.token
@@ -61,8 +52,25 @@ blogRouter.post('/', async (request, response) => {
 })
 
 blogRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+
+  const blog = await Blog.findById(request.params.id)
+  const token = request.token
+  const decodedToken = jwt.verify(token, process.env.EY)
+
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({
+      error: 'token missing or invalid'
+    })
+  }
+
+  if (blog.user.toString() === decodedToken.id.toString()) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end() 
+  } else {
+    response.status(401).json({
+      error: 'Unauthorized attempt to delete foreign note'
+    })
+  }
 })
 
 blogRouter.put('/:id', async (request, response) => {

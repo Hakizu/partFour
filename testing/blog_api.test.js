@@ -18,7 +18,6 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-
 describe('Handling invalid cases of user creation', () => {
     beforeEach(async () => {
         await User.deleteMany({})
@@ -28,6 +27,26 @@ describe('Handling invalid cases of user creation', () => {
 
         await user.save()
     })
+
+    test('Creating a new User', async () => {
+        const usersAtBeginning = await helper.usersInDb()
+    
+        const newUser = {
+            username: 'Hakizu',
+            name: 'Akisu',
+            password: 'duper'
+        }
+    
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtBeginning.length + 1)
+    
+    })    
 
     test('Username is not unique', async () => {
         const usersAtBeginning = await helper.usersInDb()
