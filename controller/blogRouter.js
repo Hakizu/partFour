@@ -48,7 +48,7 @@ blogRouter.post('/', async (request, response) => {
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  response.json(savedBlog.toJSON())
+  response.status(200).json(savedBlog.toJSON())
 })
 
 blogRouter.delete('/:id', async (request, response) => {
