@@ -32,7 +32,7 @@ const getTokenFrom = request => {
 
 blogRouter.post('/', async (request, response) => {
   const body = request.body
-  const token = getTokenFrom(request)
+  const token = request.token
   const decodedToken = jwt.verify(token, process.env.EY)
 
   if (!token || !decodedToken.id) {

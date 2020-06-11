@@ -1,9 +1,7 @@
-POST http://localhost:3003/api/blogs
+POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "title": "HTML is easy",
-    "author": "hakizu",
-    "url": "www.hakizu.net",
-    "likes": 4,
+    "username": "trial",
+    "password": "topSecret"
 }
